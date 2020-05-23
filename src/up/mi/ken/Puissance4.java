@@ -1,15 +1,12 @@
 package up.mi.ken;
-////
 
 import java.util.*;
-
-import com.sun.tools.javac.code.Attribute.Array;
 
 public class Puissance4 {
 	private Board b;
 	private Scanner scan;
 	private int nextMoveLocation = -1;
-	private int maxDepth = 8;
+	private int maxDepth = 11;
 
 	public int getMaxDepth() {
 		return maxDepth;
@@ -142,7 +139,7 @@ public class Puissance4 {
 	 * this method calculates the score of a player
 	 * 
 	 * @param aiScore      the score of the ai
-	 * @param playableSpot available moves (sur en ligne )
+	 * @param playableSpot available moves
 	 * @return the score of the ai
 	 */
 
@@ -328,6 +325,69 @@ public class Puissance4 {
 		}
 		return score;
 	}
+	
+	/**
+	 * 
+	 * @param depth the depth of the explorartion tree
+	 * @param turn who's turn?
+	 * @return the best score for the player
+	 */
+	public int minimax(int depth, int turn) {
+
+		// we'll evaluate the board when we reach the maxDepth
+				if (depth == getMaxDepth())
+					return evaluateBoard(b);
+		int winner = checkWinner(b);
+
+		if (winner == 1)
+			return Integer.MAX_VALUE / 2;
+		else if (winner == 2)
+			return Integer.MIN_VALUE / 2;
+		else if (winner == 0)
+			return 0;
+		
+
+		int maxScore = Integer.MIN_VALUE, minScore = Integer.MAX_VALUE;
+
+		for (int j = 0; j <= 6; ++j) {
+
+			int currentScore = 0;
+
+			if (!b.isPossibleMove(j))
+				continue;
+
+			if (turn == 1) {
+				b.placeMove(j, 1);
+				currentScore = minimax(depth + 1, 2);
+
+				if (depth == 0) {
+
+					if (currentScore > maxScore)
+						nextMoveLocation = j;
+					if (currentScore == Integer.MAX_VALUE / 2) {
+						b.undoMove(j);
+						break;
+					}
+				}
+
+				maxScore = Math.max(currentScore, maxScore);
+
+				//alpha = Math.max(currentScore, alpha);
+			} else if (turn == 2) {
+				b.placeMove(j, 2);
+				currentScore = minimax(depth + 1, 1);
+				minScore = Math.min(currentScore, minScore);
+
+				//beta = Math.min(currentScore, beta);
+			}
+			b.undoMove(j);
+			if (currentScore == Integer.MAX_VALUE || currentScore == Integer.MIN_VALUE)
+				break;
+		}
+		return turn == 1 ? maxScore : minScore;
+	}
+	
+	
 
 	/**
 	 * the minimaxAlphaBeta algorithm
@@ -407,80 +467,7 @@ public class Puissance4 {
 	public int getAIMove() {
 		nextMoveLocation = -1;
 		minimaxAlphaBeta(0, 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
-
 		return nextMoveLocation;
-	}
-	
-	/**
-	 * 
-	 * 
-	 * il faut isPossiblemove ici
-	 * @param move
-	 * @return
-	 */
-	public int guiHumainPlay(int move) {
-		int ligne=b.placeMove(move, (int) 2);
-		b.displayBoard();
-		return ligne ;
-	}
-
-	/**
-	 *  retourner un Arraylist contenant col et ligne
-	 * @return
-	 */
-	public int guiAIolay(int col) {
-		int ligne=b.placeMove(col, (int) 1);
-		b.displayBoard();
-		return ligne;
-	}
-
-	/**
-	 * Juste là joue l'ia
-	 */
-	public void playAgainstAIGui() {
-		//int humanMove = -1;
-		//Scanner scan = new Scanner(System.in);
-		//b.displayBoard();
-		//System.out.println("Would you like to play first ? Type (yes/no) ");
-		String answer = scan.next().trim();
-
-		if (answer.equalsIgnoreCase("yes"))
-			letOpponentMove();
-		b.displayBoard();
-		b.placeMove(3, 1);
-		b.displayBoard();
-
-		while (true) {
-			letOpponentMove();
-			b.displayBoard();
-
-			int winner = checkWinner(b);
-			if (winner == 1) {
-				System.out.println("AI Wins!");
-				break;
-			} else if (winner == 2) {
-				System.out.println("You Win!");
-				break;
-			} else if (winner == 0) {
-				System.out.println("Draw!");
-				break;
-			}
-
-			b.placeMove(getAIMove(), 1);
-			b.displayBoard();
-			winner = checkWinner(b);
-			if (winner == 1) {
-				System.out.println("AI Wins!");
-				break;
-			} else if (winner == 2) {
-				System.out.println("You Win!");
-				break;
-			} else if (winner == 0) {
-				System.out.println("Draw!");
-				break;
-			}
-		}
-
 	}
 
 	/**
@@ -607,5 +594,111 @@ public class Puissance4 {
 		}
 
 	}
+	
+	
+	/**
+	 * <i>calculates the favorbleness for an AI player using the MINIMAX
+	 * algorithm</i>
+	 * it fills the nextMoveLocation using minimax algorithm
+	 * @return the favorable spot to play at on the board
+	 */
+	public int getAIMoveMinimax() {
+		nextMoveLocation = -1;
+		minimax(0, 1);
+		return nextMoveLocation;
+	}
+	
+	/**
+	 * human plays against ai
+	 */
+	public void playAgainstAIConsoleUsingMinimax() {
+		int humanMove = -1;
+		Scanner scan = new Scanner(System.in);
+		b.displayBoard();
+		System.out.println("Would you like to play first ? Type (yes/no) ");
+		String answer = scan.next().trim();
+
+		if (answer.equalsIgnoreCase("yes"))
+			letOpponentMove();
+		b.displayBoard();
+		b.placeMove(3, 1);
+		b.displayBoard();
+
+		while (true) {
+			letOpponentMove();
+			b.displayBoard();
+
+			int winner = checkWinner(b);
+			if (winner == 1) {
+				System.out.println("AI Wins!");
+				break;
+			} else if (winner == 2) {
+				System.out.println("You Win!");
+				break;
+			} else if (winner == 0) {
+				System.out.println("Draw!");
+				break;
+			}
+
+			b.placeMove(getAIMoveMinimax(), 1);
+			b.displayBoard();
+			winner = checkWinner(b);
+			if (winner == 1) {
+				System.out.println("AI Wins!");
+				break;
+			} else if (winner == 2) {
+				System.out.println("You Win!");
+				break;
+			} else if (winner == 0) {
+				System.out.println("Draw!");
+				break;
+			}
+		}
+
+	}
+	
+	
+	/**
+	 * Makes AI play against AI using simple minimax algorithm
+	 */
+	public void playAIAgainstAIUsingMinimax() {
+		setMaxDepth(11);
+
+		while (true) {
+			//the AI 1 Plays
+			b.placeMove(getAIMoveMinimax(), 1);
+			
+			b.displayBoard();
+
+			int winner = checkWinner(b);
+			if (winner == 1) {
+				System.out.println("AI 1 Wins!");
+				break;
+			} else if (winner == 2) {
+				System.out.println("AI 2 Wins!");
+				break;
+			} else if (winner == 0) {
+				System.out.println("Draw!");
+				break;
+			}
+            //the AI 2 Plays
+			b.placeMove(getAIMoveMinimax(), 2);
+			b.displayBoard();
+			winner = checkWinner(b);
+			if (winner == 1) {
+				System.out.println("AI Wins!");
+				break;
+			} else if (winner == 2) {
+				System.out.println("You Win!");
+				break;
+			} else if (winner == 0) {
+				System.out.println("Draw!");
+				break;
+			}
+		}
+
+	}
+	
+	
 
 }
