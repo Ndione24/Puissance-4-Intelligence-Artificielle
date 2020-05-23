@@ -1,4 +1,5 @@
 package up.mi.ken;
+////
 
 import java.util.*;
 
@@ -434,7 +435,7 @@ public class Puissance4 {
 	}
 
 	/**
-	 * Juste l‡ joue l'ia
+	 * Juste l√† joue l'ia
 	 */
 	public void playAgainstAIGui() {
 		//int humanMove = -1;
