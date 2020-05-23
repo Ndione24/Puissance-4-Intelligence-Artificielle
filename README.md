@@ -1,2 +1,2 @@
-# ProjectFourInRow
-Computer game connect4
+# Puissance 4 Intelligence Artificielle
+
