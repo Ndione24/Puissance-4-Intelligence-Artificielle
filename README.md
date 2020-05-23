@@ -3,5 +3,5 @@
 
 ## Authors
 
-* **NDIONE Mouhamed ** 
-* **Sissoko Djime Mohamed ** 
+* NDIONE Mouhamed 
+* Sissoko Djime Mohamed
