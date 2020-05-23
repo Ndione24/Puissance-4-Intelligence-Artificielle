@@ -2,13 +2,11 @@ package project;
 
 public class Computer {
 	
-	public static int obtenirCoups(char[][] grille,Joueur j,int profondeur) 
+
+	static class Coup
 	{
-		return 1;
-	}
-	public static int coupsPossible(char[][] grille) 
-	{
-		return 1;
+		int row;
+		int column;
 	}
 	
 	public static void elvaluer1() 

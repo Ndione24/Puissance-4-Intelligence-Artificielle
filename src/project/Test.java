@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Test {
 
 	public static void main(String[] args) {
-
+/*
 		System.out.println("*******************  Four in a row #ndione  ****************");
 		Grille.initialiserGrille();
 		Grille.afficherGrille();
@@ -30,6 +30,10 @@ public class Test {
 
 		}
 
+	*/	
+		
+		Game connect4= new Game();
+		connect4.playAgainstAIConsole();
 		
 	}
 

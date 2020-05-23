@@ -18,6 +18,8 @@ public class Grille {
 			for (int j = 0; j < 7; j++)
 				grille[i][j] = '0';
 	}
+	
+	
 
 	private static void afficherNumColonnes() {
 
@@ -139,24 +141,7 @@ public class Grille {
 		return false;
 
 	}
-	
 
-	/*
-	public static boolean isAlignDiagonalDroit(int ligne, char bonHommme) {
-		int inc = 0;
-
-		for (int i = 0; i < 6; i++) {
-			if (grille[ligne][i] == bonHommme) {
-				inc++;
-			} else {
-				inc = 0;
-			}
-		}
-		return (inc == 4) ? true : false;
-
-	}
-*/
-	
 	
 	/**
 	 * 
@@ -295,89 +280,9 @@ public class Grille {
 	}
 	
 
-	/**
-	 * verifie s'il ya un alignement diagonal montant de quatre pion d'un joueur
-	 * 
-	 * @return
-	 */
 
-	public static boolean diagonalGAlign(int ligne, int column, char bonHommeJoueur) {
 
-		if ((column < 3) || (ligne > 3)) {
 
-			return false;
-		}
-		for (int i = 0; i < 4; i++, ligne++, column--) {
-			if (grille[ligne][column] != bonHommeJoueur) {
-
-				System.out.println("in if " + grille[ligne][column]);
-				System.out.println("column " + column + "ligne " + ligne);
-
-				return false;
-			}
-		}
-		return true;
-
-	}
-
-	/**
-	 * verifie s'il ya un alignement diagonal descendant de quatre pion d'un joueur
-	 * 
-	 * @return
-	 */
-	public static boolean diagonalDAlign(int ligne, int column, char bonHommeJoueur) {
-		if ((column > 3) || (ligne > 2)) {
-			return false;
-		}
-		for (int i = 0; i < 4; i++, ligne++, column++) {
-			if (grille[ligne][column] != bonHommeJoueur) {
-				return false;
-			}
-		}
-		return true;
-
-	}
-
-	/**
-	 * verifie s'il ya un alignement vertical de quatre pion d'un joueur
-	 * 
-	 * @return
-	 */
-	public static boolean vAlign(int ligne, int column, char bonHommeJoueur) {
-		if (ligne > 2) {
-			return false;
-		}
-
-		for (int i = 0; i < 4; i++, ligne++) {
-			if (grille[ligne][column] != bonHommeJoueur) {
-				return false;
-			}
-		}
-		return true;
-
-	}
-
-	/**
-	 * Permet de chercher 4 pions alignés dans la grille
-	 * 
-	 * @return vrai si on a 4 pions de même
-	 * 
-	 * 
-	 */
-	public static boolean hAlign(int ligne, int column, char bonHommeJoueur) {
-
-		if (column > 4) {
-			return false;
-		}
-		for (int i = 0; i < 4; i++, column++) {
-			if (grille[ligne][column] != bonHommeJoueur) {
-				return false;
-			}
-		}
-
-		return true;
-
-	}
 
 	/**
 	 * return le numero du joueur gagnant

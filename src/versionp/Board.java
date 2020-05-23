@@ -10,6 +10,7 @@ public class Board {
 			{ 0, 0, 0, 0, 0, 0, 0, }, 
 			{ 0, 0, 0, 0, 0, 0, 0, }, };
 	}
+	
 /**
  * <i>checks if the column is playable</i>
  * @param column the column we want to play
@@ -38,6 +39,8 @@ public class Board {
 		}
 		return false;
 	}
+	
+	
 /**
  * annuler un deplacement
  * <i> initialize a whole column</i>
@@ -51,6 +54,7 @@ public class Board {
 			}
 		}
 	}
+	
   /**
    * <i>show the number of all columns</i>
    */

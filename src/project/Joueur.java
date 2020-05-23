@@ -1,14 +1,15 @@
 
 //enlever les static et revoir le jeu
 
-package project;
 
+package project;
 public class Joueur {
 	
 	//??? static ???
 	private static int numJoueur=1;
 
 	private int nbFoisJouer;
+	
 	public Joueur(){
 		
 		this.nbFoisJouer=0;
@@ -65,8 +66,6 @@ public class Joueur {
 		
 		
 	}
-	
-
 	/**
 	 * 
 	 * @param player le numéro couraant du joueur
